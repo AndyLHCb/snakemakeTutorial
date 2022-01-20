@@ -1,0 +1,15 @@
+rule fitDTR:
+    input:
+        "nTupleCombinedDT-withDTR.root"
+    output:
+        report("DTRfit.pdf")
+    shell:
+        'root -l -q -b "fitDTR.C(\\\"{input}\\\")" > Logs/DTRfit.log'
+
+rule fitTrueDT:
+    input:
+        "nTupleCombinedDT-withDTR.root"
+    output:
+        report("TrueDTfit.pdf")
+    shell:
+        'root -l -q -b "fitTrueDT.C(\\\"{input}\\\")" > Logs/TrueDTfit.log'

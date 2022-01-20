@@ -5,21 +5,19 @@ import os
 #if the Logs folder doesn't exist, make it
 os.system("if [ ! -d Logs ]; then mkdir Logs; fi")
 
-rule calculateDTR:
-    input:
-        "{file}.root"
-    output:
-        "{file}-withDTR.root"
-    shell:
-        'root -l -q "calculate_DTR.C(\\\"{input}\\\")" > Logs/DTR-{input}.log 2>&1'  
+module process:
+    snakefile: "process.snake"
 
-rule mergeFiles:
-    input:
-        file0="{fileA}0{fileB}.root",
-        file1="{fileA}1{fileB}.root"
-    output:
-        "{fileA}Combined{fileB}.root"
-    shell:
-        'root -l -q "mergeSamples.C(\\\"{input.file0}\\\",\\\"{input.file1}\\\")" > Logs/Merge-{output}.log 2>&1'
+use rule * from process as p_*
 
-#ruleorder: mergeFiles > calculateDTR
+module fit:
+    snakefile: "fit.snake"
+
+use rule * from fit as f_*
+
+rule all:
+    input:
+        "DTRfit.pdf",
+        "TrueDTfit.pdf"
+
+ruleorder: p_mergeFiles > p_calculateDTR
