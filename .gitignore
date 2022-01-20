@@ -1,3 +1,4 @@
 Logs/*
 *.root
 *~
+.snakemake
