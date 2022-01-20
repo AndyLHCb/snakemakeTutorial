@@ -1,4 +1,7 @@
 Logs/*
+*.pdf
 *.root
 *~
 .snakemake
+*.html
+*.zip
