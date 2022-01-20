@@ -22,4 +22,4 @@ rule mergeFiles:
     shell:
         'root -l -q "mergeSamples.C(\\\"{input.file0}\\\",\\\"{input.file1}\\\")" > Logs/Merge-{output}.log 2>&1'
 
-#ruleorder: mergeFiles > calculateDTR
+ruleorder: mergeFiles > calculateDTR
